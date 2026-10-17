@@ -4,3 +4,9 @@
 *.class
 *Test.java
 **/test/
+
+# 本地开发配置（含数据库密码、阿里云 AK，禁止入库）
+sky-server/src/main/resources/application-dev.yml
+
+# 本地工作笔记，不入库
+.workbuddy/

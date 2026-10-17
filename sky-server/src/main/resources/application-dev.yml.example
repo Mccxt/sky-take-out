@@ -1,0 +1,15 @@
+# 复制本文件为 application-dev.yml，再填入自己本机的真实值
+# 命令：copy application-dev.yml.example application-dev.yml   (Windows)
+sky:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: sky_take_out
+    username: 你的数据库用户名
+    password: 你的数据库密码
+  alioss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: 你的AccessKeyId
+    access-key-secret: 你的AccessKeySecret
+    bucket-name: 你的Bucket名
