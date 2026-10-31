@@ -155,7 +155,6 @@ public class HttpClientUtil {
 
             // 执行http请求
             response = httpClient.execute(httpPost);
-
             resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
         } catch (Exception e) {
             throw e;
