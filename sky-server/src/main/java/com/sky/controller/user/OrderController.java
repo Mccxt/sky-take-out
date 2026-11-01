@@ -22,7 +22,7 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-    /**
+    /*
      * 用户下单
      * @param ordersSubmitDTO
      * @return
@@ -35,7 +35,7 @@ public class OrderController {
         return Result.success(orderSubmitVO);
     }
 
-    /**
+    /*
      * 订单详情
      */
     @GetMapping("/orderDetail/{id}")
@@ -46,7 +46,7 @@ public class OrderController {
     }
 
 
-    /**
+    /*
      * 订单支付
      *
      * @param ordersPaymentDTO
@@ -61,8 +61,8 @@ public class OrderController {
         return Result.success(orderPaymentVO);
     }
 
-    /**
-     * 历史订单查询
+    /*
+      历史订单查询
      * @param page
      * @param pageSize
      * @param status 订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
@@ -75,8 +75,8 @@ public class OrderController {
         return Result.success(pageResult);
     }
 
-    /**
-     * 用户取消订单
+    /*
+     用户取消订单
      */
     @PutMapping("/cancel/{id}")
     @ApiOperation("用户取消订单")
@@ -85,8 +85,8 @@ public class OrderController {
         return Result.success();
     }
 
-    /**
-     * 再来一单
+    /*
+     再来一单
      *
      * @return
      */
@@ -96,4 +96,15 @@ public class OrderController {
         orderService.repetition(id);
         return Result.success();
     }
+
+    /*
+    用户催单
+     */
+    @GetMapping("/reminder/{id}")
+    @ApiOperation("用户催单")
+    public Result reminder(@PathVariable Long id){
+        orderService.reminder(id);
+        return Result.success();
+    }
+
 }

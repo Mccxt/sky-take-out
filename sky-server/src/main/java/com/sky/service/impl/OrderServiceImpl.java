@@ -57,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private WebSocketServer webSocketServer;
 
-    /**
+    /*
      * 用户下单
      *
      * @param ordersSubmitDTO
@@ -112,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
         return orderSubmitVO;
     }
 
-    /**
+    /*
      * 订单支付
      *
      * @param ordersPaymentDTO
@@ -145,7 +145,7 @@ public class OrderServiceImpl implements OrderService {
         paySuccess(ordersPaymentDTO.getOrderNumber());
         return new OrderPaymentVO();
     }
-    /**
+    /*
      * 支付成功，修改订单状态
      *
      * @param outTradeNo
@@ -173,7 +173,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 通过websocket向客户端浏览器推送消息 type orderId content
         Map map = new HashMap<>();
-        map.put("type",1);
+        map.put("type",1);  // 消息提醒，1表示来单提醒
         map.put("orderId",ordersDB.getId());
         map.put("content","订单号：" + outTradeNo);
 
@@ -181,7 +181,7 @@ public class OrderServiceImpl implements OrderService {
         webSocketServer.sendToAllClient(json);
     }
 
-    /**
+    /*
      * 查询订单详情
      * @param id
      */
@@ -200,8 +200,7 @@ public class OrderServiceImpl implements OrderService {
         return vo;
     }
 
-    /**
-     * 历史订单查询
+    /*     * 历史订单查询
      * @param pageNum
      * @param pageSize
      * @param status
@@ -235,7 +234,7 @@ public class OrderServiceImpl implements OrderService {
         return new PageResult(pageQuery.getTotal(),list);
     }
 
-    /**
+    /*
      * 用户取消订单
      * @param id
      */
@@ -271,7 +270,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(or);
     }
 
-    /**
+    /*
      * 再来一单
      * @param id
      */
@@ -295,7 +294,7 @@ public class OrderServiceImpl implements OrderService {
         shoppingCartMapper.insertBatch(shoppingCartList);
     }
 
-    /**
+    /*
      *  订单搜索-分页查询
      */
     public PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO){
@@ -325,7 +324,7 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderVOList;
     }
-    /**
+    /*
      *  根据订单id获取菜品信息字符串
      */
     private String getOrderDishesStr(Orders orders){
@@ -341,7 +340,7 @@ public class OrderServiceImpl implements OrderService {
         return String.join("",orderDishList);
     }
 
-    /**
+    /*
      *  各个状态的订单数量统计
      * @return
      */
@@ -360,7 +359,7 @@ public class OrderServiceImpl implements OrderService {
         return orderStatisticsVO;
     }
 
-    /**
+    /*
      * 接单
      * @param ordersConfirmDTO
      */
@@ -372,7 +371,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(orders);
     }
 
-    /**
+    /*
      * 拒单
      * @param ordersRejectionDTO
      */
@@ -406,7 +405,7 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    /**
+    /*
      * 商家取消订单
      * @param ordersCancelDTO
      */
@@ -417,7 +416,7 @@ public class OrderServiceImpl implements OrderService {
         Integer payStatus = orders.getPayStatus();
         if(payStatus == Orders.PAID){
             //用户已支付
-            String refund = weChatPayUtil.refund(
+            String refund = weChatPayUtil.refund(    //TODO  已经 完成的 订单也会退，需要修改
                     orders.getNumber(),
                     orders.getNumber(),
                     new BigDecimal(0.01),
@@ -433,7 +432,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(or);
     }
 
-    /**
+    /*
      * 派送订单
      * @param id
      */
@@ -451,7 +450,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(or);
     }
 
-    /**
+    /*
      * 完成订单
      * @param id
      */
@@ -469,5 +468,23 @@ public class OrderServiceImpl implements OrderService {
         or.setDeliveryTime(LocalDateTime.now());
         orderMapper.update(or);
 
+    }
+
+    /*
+    用户催单
+     */
+    public void reminder(Long id) {
+        //查询订单是否存在
+        Orders order = orderMapper.getById(id);
+        if(order == null){
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        // 基于websocket实现订单
+        Map map = new HashMap<>();
+        map.put("type",2); // 2代表用户催单
+        map.put("orderId",id);
+        map.put("content","订单号" + order.getNumber());
+        String json = JSON.toJSONString(map);
+        webSocketServer.sendToAllClient(json);
     }
 }
