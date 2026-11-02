@@ -3,7 +3,6 @@ package com.sky.mapper;
 import com.github.pagehelper.Page;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
-import com.sky.exception.UserNotLoginException;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -73,4 +72,9 @@ public interface OrderMapper {
     根据动态条件统计营业额数据
      */
     Double sumByMap(Map map);
+
+    /*
+    动态擦汗寻每天的订单数据
+     */
+    Integer countByMap(Map map);
 }
