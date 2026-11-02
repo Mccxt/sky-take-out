@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
+/*
  * 分类业务层
  */
 @Service
@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private SetmealMapper setmealMapper;
 
-    /**
+    /*
      * 新增分类
      * @param categoryDTO
      */
@@ -56,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.insert(category);
     }
 
-    /**
+    /*
      * 分页查询
      * @param categoryPageQueryDTO
      * @return
@@ -68,7 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
         return new PageResult(page.getTotal(), page.getResult());
     }
 
-    /**
+    /*
      * 根据id删除分类
      * @param id
      */
@@ -91,7 +91,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.deleteById(id);
     }
 
-    /**
+    /*
      * 修改分类
      * @param categoryDTO
      */
@@ -104,7 +104,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.update(category);
     }
 
-    /**
+    /*
      * 启用、禁用分类
      * @param status
      * @param id
@@ -119,7 +119,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.update(category);
     }
 
-    /**
+    /*
      * 根据类型查询分类
      * @param type
      * @return

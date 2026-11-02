@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
-/**
+/*
  * 微信支付工具类
  */
 @Component
@@ -44,7 +44,7 @@ public class WeChatPayUtil {
     @Autowired
     private WeChatProperties weChatProperties;
 
-    /**
+    /*
      * 获取调用微信接口的客户端工具对象
      *
      * @return
@@ -72,7 +72,7 @@ public class WeChatPayUtil {
         }
     }
 
-    /**
+    /*
      * 发送post方式请求
      *
      * @param url
@@ -98,7 +98,7 @@ public class WeChatPayUtil {
         }
     }
 
-    /**
+    /*
      * 发送get方式请求
      *
      * @param url
@@ -122,7 +122,7 @@ public class WeChatPayUtil {
         }
     }
 
-    /**
+    /*
      * jsapi下单
      *
      * @param orderNum    商户订单号
@@ -154,7 +154,7 @@ public class WeChatPayUtil {
         return post(JSAPI, body);
     }
 
-    /**
+    /*
      * 小程序支付
      *
      * @param orderNum    商户订单号
@@ -205,7 +205,7 @@ public class WeChatPayUtil {
         return jsonObject;
     }
 
-    /**
+    /*
      * 申请退款
      *
      * @param outTradeNo    商户订单号
