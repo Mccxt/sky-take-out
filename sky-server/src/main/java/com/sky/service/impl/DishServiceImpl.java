@@ -29,7 +29,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class DishServiceImpl implements DishService {
-    /**
+    /*
      * 新增菜品和对应的口味
      */
     @Autowired
@@ -60,7 +60,7 @@ public class DishServiceImpl implements DishService {
         }
     }
 
-    /**
+    /*
      * 菜品分页查询
      * @param dishPageQueryDTO
      * @return
@@ -71,7 +71,7 @@ public class DishServiceImpl implements DishService {
         return new PageResult(page.getTotal(),page.getResult());
     }
 
-    /**
+    /*
      * 菜品批量删除
      * @param ids
      */
@@ -104,7 +104,7 @@ public class DishServiceImpl implements DishService {
 
     }
 
-    /**
+    /*
      * 根据id查询菜品及口味
      * @param id
      * @return
@@ -121,7 +121,7 @@ public class DishServiceImpl implements DishService {
         return dishVO;
     }
 
-    /**
+    /*
      * 根据id修改品及口味
      * @param dishDTO
      */
@@ -143,7 +143,7 @@ public class DishServiceImpl implements DishService {
         }
     }
 
-    /**
+    /*
      * 根据分类id查询菜品
      * @param categoryId
      * @return
@@ -156,7 +156,7 @@ public class DishServiceImpl implements DishService {
         return dishMapper.list(dish);
     }
 
-    /**
+    /*
      * 条件查询菜品和口味
      * @param dish
      * @return

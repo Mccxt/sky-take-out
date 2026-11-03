@@ -6,7 +6,7 @@
     <insert id="insertFlavor">
         insert into dish_flavor (dish_id,name,value)
         values
-            <foreach collection="flavors" item="df">
+            <foreach collection="flavors" item="df" separator=",">
                 (#{df.dishId},#{df.name},#{df.value})
             </foreach>
     </insert>

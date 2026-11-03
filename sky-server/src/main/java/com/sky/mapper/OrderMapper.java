@@ -75,7 +75,7 @@ public interface OrderMapper {
     Double sumByMap(Map map);
 
     /*
-    动态擦汗寻每天的订单数据
+    动态条件查询订单数量
      */
     Integer countByMap(Map map);
 

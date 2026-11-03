@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
 
-/**
+/*
  * 菜品管理
  */
 @RestController
@@ -33,7 +33,7 @@ public class DishController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    /**
+    /*
      * 新增菜品
      * @param dishDTO
      * @return
@@ -49,7 +49,7 @@ public class DishController {
         return Result.success();
     }
 
-    /**
+    /*
      *菜品分页查询
      * @param dishPageQueryDTO
      * @return
@@ -62,7 +62,7 @@ public class DishController {
         return Result.success(pageResult);
     }
 
-    /**
+    /*
      * 菜品批量删除
      * @param ids
      * @return
@@ -76,7 +76,7 @@ public class DishController {
         return Result.success();
     }
 
-    /***
+    /*
      * 根据id查询菜品
      * @param id
      * @return
@@ -88,7 +88,7 @@ public class DishController {
         DishVO dishVO = dishService.getByIdWithFlavor(id);
         return Result.success(dishVO);
     }
-    /**
+    /*
      * 根据id修改菜品
      */
     @PutMapping
@@ -101,7 +101,7 @@ public class DishController {
         return Result.success();
     }
 
-    /**
+    /*
      * 菜品起售停售
      */
     @PostMapping("/status/{status}")
@@ -113,7 +113,7 @@ public class DishController {
         return Result.success();
     }
 
-    /**
+    /*
      * 根据-分类id-查询菜品
      * @param categoryId
      * @return
@@ -127,7 +127,7 @@ public class DishController {
     }
 
 
-    /**
+    /*
      * 统一清楚redis缓存数据
      */
     private void cleanCache(String pattern){
