@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
+/*
  * 订单
  */
 @Data
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Orders implements Serializable {
 
-    /**
+    /*
      * 订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
      */
     public static final Integer PENDING_PAYMENT = 1;
@@ -28,7 +28,7 @@ public class Orders implements Serializable {
     public static final Integer COMPLETED = 5;
     public static final Integer CANCELLED = 6;
 
-    /**
+    /*
      * 支付状态 0未支付 1已支付 2退款
      */
     public static final Integer UN_PAID = 0;

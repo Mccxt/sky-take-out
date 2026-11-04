@@ -254,12 +254,13 @@ public class OrderServiceImpl implements OrderService {
         // 订单处于待接单状态下取消，需要进行退款
         if(order.getStatus().equals(or.TO_BE_CONFIRMED)){
             // 通过微信支付退款接口
-            weChatPayUtil.refund(
-                    order.getNumber(), // 商户订单号
-                    order.getNumber(), // 商户退款单号
-                    new BigDecimal(0.01), // 退款金额，单位：元
-                    new BigDecimal(0.01)); // 原订单金额
-
+            //weChatPayUtil.refund(
+            //        order.getNumber(), // 商户订单号
+            //        order.getNumber(), // 商户退款单号
+            //        new BigDecimal(0.01), // 退款金额，单位：元
+            //        new BigDecimal(0.01)); // 原订单金额
+              // 微信支付未接入，此处模拟退款成功
+            log.info("模拟微信退款成功，订单号：{}，退款金额：{}",order.getNumber(),order.getAmount());
             //支付状态修改为 退款
             or.setPayStatus(Orders.REFUND);
         }
@@ -349,7 +350,6 @@ public class OrderServiceImpl implements OrderService {
         Integer toBeConfirmed = orderMapper.countStatus(Orders.TO_BE_CONFIRMED);
         Integer confirmed = orderMapper.countStatus(Orders.CONFIRMED);
         Integer deliveryInProgress = orderMapper.countStatus(Orders.DELIVERY_IN_PROGRESS);
-
         // 将查询出的数据封装到orderStatisticsVO中响应
         OrderStatisticsVO orderStatisticsVO = new OrderStatisticsVO();
         orderStatisticsVO.setConfirmed(confirmed);
@@ -378,7 +378,6 @@ public class OrderServiceImpl implements OrderService {
     public void rejection(OrdersRejectionDTO ordersRejectionDTO) throws Exception {
         //根据 id 查询订单
         Orders orders = orderMapper.getById(ordersRejectionDTO.getId());
-
         // 订单只有存在 且状态为2（待接单） 才可以拒单
         if(orders == null || !orders.getStatus().equals(Orders.TO_BE_CONFIRMED)){
             throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
@@ -387,12 +386,14 @@ public class OrderServiceImpl implements OrderService {
         Integer payStatus = orders.getPayStatus();
         if(payStatus == Orders.PAID){
             //用户已支付
-            String refund = weChatPayUtil.refund(
-                    orders.getNumber(),
-                    orders.getNumber(),
-                    new BigDecimal(0.01),
-                    new BigDecimal(0.01));
-            log.info("申请退款：{}",refund);
+            //String refund = weChatPayUtil.refund(
+            //        orders.getNumber(),
+            //        orders.getNumber(),
+            //        new BigDecimal(0.01),
+            //        new BigDecimal(0.01));
+            //log.info("申请退款：{}",refund);
+            //用户已支付，模拟退款成功
+            log.info("模拟微信退款成功，订单号：{}，退款金额：{}", orders.getNumber(), orders.getAmount());
         }
 
         //拒单需要退款，根据订单id更新订单状态，拒单原因，取消时间
@@ -401,8 +402,11 @@ public class OrderServiceImpl implements OrderService {
         or.setStatus(Orders.CANCELLED);
         or.setRejectionReason(ordersRejectionDTO.getRejectionReason());
         or.setCancelTime(LocalDateTime.now());
+        //已支付的订单取消后，支付状态改为退款
+        if(payStatus == Orders.PAID){
+            or.setPayStatus(Orders.REFUND);
+        }
         orderMapper.update(or);
-
     }
 
     /*
@@ -412,16 +416,21 @@ public class OrderServiceImpl implements OrderService {
     public void cancel(OrdersCancelDTO ordersCancelDTO) throws Exception {
         // 根据id查询寻订单
         Orders orders = orderMapper.getById(ordersCancelDTO.getId());
+        if(orders.getStatus() >= Orders.DELIVERY_IN_PROGRESS){
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
         //支付状态
         Integer payStatus = orders.getPayStatus();
-        if(payStatus == Orders.PAID){
+        if(payStatus == Orders.PAID ){
             //用户已支付
-            String refund = weChatPayUtil.refund(    //TODO  已经 完成的 订单也会退，需要修改
-                    orders.getNumber(),
-                    orders.getNumber(),
-                    new BigDecimal(0.01),
-                    new BigDecimal(0.01));
-            log.info("申请退款：{}",refund);
+            //String refund = weChatPayUtil.refund(
+            //        orders.getNumber(),
+            //        orders.getNumber(),
+            //        new BigDecimal(0.01),
+            //        new BigDecimal(0.01));
+            //log.info("申请退款：{}",refund);
+            //用户已支付，模拟退款成功
+            log.info("模拟微信退款成功，订单号：{}，退款金额：{}", orders.getNumber(), orders.getAmount());
         }
         //管理员取消订单需要退款，根据订单id更新订单状态，拒单原因，取消时间
         Orders or = new Orders();
@@ -429,6 +438,10 @@ public class OrderServiceImpl implements OrderService {
         or.setStatus(Orders.CANCELLED);
         or.setCancelTime(LocalDateTime.now());
         or.setCancelReason(ordersCancelDTO.getCancelReason());
+        //已支付的订单取消后，支付状态改为退款
+        if(payStatus == Orders.PAID){
+            or.setPayStatus(Orders.REFUND);
+        }
         orderMapper.update(or);
     }
 
