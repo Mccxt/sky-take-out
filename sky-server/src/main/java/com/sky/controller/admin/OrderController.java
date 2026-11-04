@@ -21,7 +21,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    /**
+    /*
      * 订单搜索-分页查询
      */
     @GetMapping("/conditionSearch")
@@ -31,7 +31,7 @@ public class OrderController {
         return Result.success(pageResult);
     }
 
-    /**
+    /*
      * 各个状态的订单数量统计
      */
     @GetMapping("/statistics")
@@ -51,7 +51,7 @@ public class OrderController {
         return Result.success(orderVo);
     }
 
-    /**
+    /*
      * 接单
      */
     @PutMapping("/confirm")
@@ -60,7 +60,7 @@ public class OrderController {
         orderService.confirm(ordersConfirmDTO);
         return Result.success();
     }
-    /**
+    /*
      * 拒单
      */
     @PutMapping("/rejection")
@@ -70,7 +70,7 @@ public class OrderController {
         return Result.success();
     }
 
-    /**
+    /*
      * 取消订单
      */
     @PutMapping("/cancel")
@@ -80,7 +80,7 @@ public class OrderController {
         return Result.success();
     }
 
-    /**
+    /*
      * 派送订单
      */
     @PutMapping("/delivery/{id}")
@@ -89,7 +89,7 @@ public class OrderController {
         orderService.delivery(id);
         return Result.success();
     }
-    /**
+    /*
      * 完成订单
      */
     @PutMapping("/complete/{id}")

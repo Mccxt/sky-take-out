@@ -61,13 +61,19 @@ public class DishServiceImpl implements DishService {
     }
 
     /*
-     * 菜品分页查询
+     * 菜品分页查询，动态条件查询菜品
      * @param dishPageQueryDTO
      * @return
      */
     public PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO) {
-        PageHelper.startPage(dishPageQueryDTO.getPage(), dishPageQueryDTO.getPageSize());
+        //startPage 不是设置一个全局配置，而是往 ThreadLocal 里放一张一次性便签——拦完一条 SQL 就被撕掉。
+        PageHelper.startPage(dishPageQueryDTO.getPage(), dishPageQueryDTO.getPageSize());  // 问题：在动态条件查询菜品时：直接根据传入的page PageHelper 会算：limit (2-1)*10, 10 也就是 limit 10, 10 —— 跳过前 10 条，取 10 条 后面没数据所以条件查询为空
         Page<DishVO> page = dishMapper.pageQuery(dishPageQueryDTO);
+        // 页码越界（比如只有 1 页却请求第 2 页）时，回到第 1 页重新查
+        if(page.getResult().isEmpty() && page.getTotal() >0){
+            PageHelper.startPage(1,dishPageQueryDTO.getPageSize());
+            page = dishMapper.pageQuery(dishPageQueryDTO);
+        }
         return new PageResult(page.getTotal(),page.getResult());
     }
 

@@ -199,7 +199,6 @@ public class WeChatPayUtil {
             jo.put("package", "prepay_id=" + prepayId);
             jo.put("signType", "RSA");
             jo.put("paySign", packageSign);
-
             return jo;
         }
         return jsonObject;

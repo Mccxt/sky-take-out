@@ -50,7 +50,7 @@ public class DishController {
     }
 
     /*
-     *菜品分页查询
+     *菜品分页查询，动态条件查询菜品
      * @param dishPageQueryDTO
      * @return
      */

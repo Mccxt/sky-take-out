@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-/**
+/*
  * 工作台
  */
 @RestController
@@ -28,7 +28,7 @@ public class WorkSpaceController {
     @Autowired
     private WorkspaceService workspaceService;
 
-    /**
+    /*
      * 工作台今日数据查询
      * @return
      */
@@ -44,7 +44,7 @@ public class WorkSpaceController {
         return Result.success(businessDataVO);
     }
 
-    /**
+    /*
      * 查询订单管理数据
      * @return
      */
@@ -54,7 +54,7 @@ public class WorkSpaceController {
         return Result.success(workspaceService.getOrderOverView());
     }
 
-    /**
+    /*
      * 查询菜品总览
      * @return
      */
@@ -64,7 +64,7 @@ public class WorkSpaceController {
         return Result.success(workspaceService.getDishOverView());
     }
 
-    /**
+    /*
      * 查询套餐总览
      * @return
      */
